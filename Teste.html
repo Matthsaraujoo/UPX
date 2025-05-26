@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarTrack - Monitoramento de Energia Solar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1f4e3d;
+      --secondary: #267e5d;
+      --accent: #00C49F;
+      --light: #e7f5ee;
+      --dark: #0a2e22;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--accent);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 20px;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+    
+    nav ul li a:hover, nav ul li a.active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .hero {
+      background: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+      background-size: cover;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+    
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    
+    .hero-content p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--accent);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background-color: #00a383;
+      transform: translateY(-2px);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--primary);
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .feature-card {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-card i {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    
+    .feature-card h3 {
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .dashboard {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 60px;
+    }
+    
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 30px;
+    }
+    
+    .tab {
+      padding: 12px 24px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .tab.active {
+      border-bottom: 3px solid var(--accent);
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .tab:hover:not(.active) {
+      border-bottom: 3px solid rgba(0, 196, 159, 0.3);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .chart-container {
+      margin-top: 20px;
+      position: relative;
+      height: 400px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .stat-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--secondary);
+    }
+    
+    .installation-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+    
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .gallery-item p {
+      padding: 15px;
+      background: white;
+      margin: 0;
+    }
+    
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 40px 0;
+    }
+    
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      padding: 0 20px;
+    }
+    
+    .footer-column h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column ul li a {
+      color: #ddd;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-column ul li a:hover {
+      color: var(--accent);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+      color: var(--accent);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+      }
+      
+      nav ul {
+        margin-top: 20px;
+      }
+      
+      .hero-content h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-solar-panel"></i>
+        <span>SolarTrack</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Início</a></li>
+          <li><a href="#dashboard">Monitoramento</a></li>
+          <li><a href="#installations">Instalações</a></li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Energia Solar para sua Empresa</h1>
+      <p>Monitore em tempo real o consumo de energia, a geração solar e a economia da sua empresa com nossa plataforma inteligente.</p>
+      <a href="#dashboard" class="btn">Acessar Dashboard</a>
+    </div>
+  </section>
+  
+  <section class="container" id="features">
+    <h2 class="section-title">Nossas Soluções</h2>
+    <div class="features">
+      <div class="feature-card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Monitoramento em Tempo Real</h3>
+        <p>Acompanhe a geração de energia solar e o consumo da sua empresa com dados atualizados a cada 15 minutos.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-money-bill-wave"></i>
+        <h3>Economia Mensurável</h3>
+        <p>Veja exatamente quanto sua empresa está economizando com a energia solar e o retorno sobre o investimento.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Acesso em Qualquer Lugar</h3>
+        <p>Acesse os dados de qualquer dispositivo com nossa plataforma responsiva e aplicativo móvel.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="container" id="dashboard">
+    <h2 class="section-title">Dashboard de Monitoramento</h2>
+    <div class="dashboard">
+      <div class="tabs">
+        <div class="tab active" onclick="openTab(event, 'overview')">Visão Geral</div>
+        <div class="tab" onclick="openTab(event, 'generation')">Geração Solar</div>
+        <div class="tab" onclick="openTab(event, 'consumption')">Consumo</div>
+        <div class="tab" onclick="openTab(event, 'economy')">Economia</div>
+      </div>
+      
+      <div id="overview" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Geração Hoje</h3>
+            <div class="value" id="today-generation">128.5 kWh</div>
+            <p>+12% em relação a ontem</p>
+          </div>
+          <div class="stat-card">
+            <h3>Consumo Hoje</h3>
+            <div class="value" id="today-consumption">98.3 kWh</div>
+            <p>-5% em relação a ontem</p>
+          </div>
+          <div class="stat-card">
+            <h3>Autossuficiência</h3>
+            <div class="value" id="self-sufficiency">76%</div>
+            <p>da energia consumida</p>
+          </div>
+          <div class="stat-card">
+            <h3>Economia Hoje</h3>
+            <div class="value" id="today-economy">R$ 89,42</div>
+            <p>Total mensal: R$ 2.250,00</p>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="overview-chart"></canvas>
+        </div>
+      </div>
+      
+      <div id="generation" class="tab-content">
+        <h3>Geração de Energia Solar</h3>
+        <p>Monitoramento detalhado da energia gerada pelo seu sistema fotovoltaico.</p>
+        <div class="chart-container">
+          <canvas id="generation-chart"></canvas>
+        </div>
+      </div>
+      
+      <div id="consumption" class="tab-content">
+        <h3>Consumo de Energia</h3>
+        <p>Análise do consumo de energia da sua empresa e comparação com a geração solar.</p>
+        <div class="chart-container">
+          <canvas id="consumption-chart"></canvas>
+        </div>
+      </div>
+      
+      <div id="economy" class="tab-content">
+        <h3>Economia Financeira</h3>
+        <p>Relatório de economia gerada pelo sistema fotovoltaico e projeções futuras.</p>
+        <div class="chart-container">
+          <canvas id="economy-chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="container" id="installations">
+    <h2 class="section-title">Nossas Instalações</h2>
+    <p style="text-align: center; margin-bottom: 30px;">Confira algumas de nossas instalações de energia solar em empresas de Sorocaba e região.</p>
+    
+    <div class="installation-gallery">
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Instalação comercial">
+            <p>Empresa Ágil Solar - 50kWp</p>
+        </div>
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Técnicos instalando painéis">
+            <p>Equipe técnica em ação</p>
+        </div>
+    </div>
+</section>
+  
+  <footer id="contact">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>SolarTrack</h3>
+        <p>Soluções inteligentes para monitoramento de energia solar em Sorocaba e região.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h3>Links Rápidos</h3>
+        <ul>
+          <li><a href="#">Início</a></li>
+          <li><a href="#dashboard">Monitoramento</a></li>
+          <li><a href="#installations">Instalações</a></li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contato</h3>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Av. São Paulo, 1000 - Sorocaba/SP</li>
+          <li><i class="fas fa-phone"></i> (15) 3333-4444</li>
+          <li><i class="fas fa-envelope"></i> contato@solartrack.com.br</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 SolarTrack - Todos os direitos reservados</p>
+    </div>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Função para alternar entre abas
+    function openTab(evt, tabName) {
+      const tabContents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+      
+      const tabs = document.getElementsByClassName("tab");
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+      }
+      
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+    
+    // Configuração dos gráficos
+    document.addEventListener('DOMContentLoaded', function() {
+      // Gráfico de visão geral
+      const overviewCtx = document.getElementById('overview-chart').getContext('2d');
+      const overviewChart = new Chart(overviewCtx, {
+        type: 'line',
+        data: {
+          labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
+          datasets: [
+            {
+              label: 'Geração Solar (kWh)',
+              data: [0, 0, 5, 15, 28, 22, 8, 0],
+              borderColor: '#00C49F',
+              backgroundColor: 'rgba(0, 196, 159, 0.1)',
+              tension: 0.3,
+              fill: true
+            },
+            {
+              label: 'Consumo (kWh)',
+              data: [8, 6, 10, 18, 25, 30, 22, 15],
+              borderColor: '#FF8042',
+              backgroundColor: 'rgba(255, 128, 66, 0.1)',
+              tension: 0.3,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Gráfico de geração
+      const generationCtx = document.getElementById('generation-chart').getContext('2d');
+      const generationChart = new Chart(generationCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+          datasets: [{
+            label: 'Geração Solar (kWh)',
+            data: [125, 130, 128, 135, 140, 110, 95],
+            backgroundColor: 'rgba(0, 196, 159, 0.7)'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Gráfico de consumo
+      const consumptionCtx = document.getElementById('consumption-chart').getContext('2d');
+      const consumptionChart = new Chart(consumptionCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+          datasets: [
+            {
+              label: 'Consumo Total (kWh)',
+              data: [150, 145, 155, 160, 158, 120, 105],
+              backgroundColor: 'rgba(255, 128, 66, 0.7)'
+            },
+            {
+              label: 'Consumo da Rede (kWh)',
+              data: [25, 15, 27, 25, 18, 10, 10],
+              backgroundColor: 'rgba(100, 100, 100, 0.7)'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Gráfico de economia
+      const economyCtx = document.getElementById('economy-chart').getContext('2d');
+      const economyChart = new Chart(economyCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+          datasets: [{
+            label: 'Economia (R$)',
+            data: [1800, 1900, 2100, 2000, 2250, 2300, 2400, 2500, 2450, 2600, 2550, 2700],
+            borderColor: '#1f4e3d',
+            backgroundColor: 'rgba(31, 78, 61, 0.1)',
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Simulação de dados em tempo real (apenas para demonstração)
+      function updateRealTimeData() {
+        const now = new Date();
+        const hours = now.getHours();
+        
+        // Atualiza os valores exibidos
+        document.getElementById('today-generation').textContent = 
+          (128.5 + Math.random() * 5).toFixed(1) + ' kWh';
+        document.getElementById('today-consumption').textContent = 
+          (98.3 + Math.random() * 5).toFixed(1) + ' kWh';
+        document.getElementById('self-sufficiency').textContent = 
+          Math.min(100, Math.floor(76 + Math.random() * 10)) + '%';
+        document.getElementById('today-economy').textContent = 
+          'R$ ' + (89.42 + Math.random() * 5).toFixed(2);
+      }
+      
+      // Atualiza a cada 5 segundos (apenas para demonstração)
+      setInterval(updateRealTimeData, 5000);
+      updateRealTimeData();
+    });
+  </script>
+</body>
+</html>

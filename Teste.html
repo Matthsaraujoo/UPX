@@ -72,6 +72,100 @@
       background-color: rgba(255, 255, 255, 0.2);
     }
     
+    /* Novos estilos para o sistema de login */
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 60vh;
+      padding: 40px 20px;
+    }
+    
+    .auth-form {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .auth-form h2 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+    
+    .form-actions {
+      margin-top: 30px;
+      text-align: center;
+    }
+    
+    .btn-login {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    
+    .btn-login:hover {
+      background-color: #00a383;
+    }
+    
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+    
+    .form-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    /* [Manter todos os outros estilos existentes] */
     .hero {
       background: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
       background-size: cover;
@@ -349,6 +443,10 @@
       .hero {
         height: 400px;
       }
+      
+      .auth-form {
+        padding: 20px;
+      }
     }
   </style>
 </head>
@@ -365,120 +463,176 @@
           <li><a href="#dashboard">Monitoramento</a></li>
           <li><a href="#installations">Instalações</a></li>
           <li><a href="#contact">Contato</a></li>
+          <li><a href="#login">Login</a></li>
         </ul>
       </nav>
     </div>
   </header>
   
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Energia Solar para sua Empresa</h1>
-      <p>Monitore em tempo real o consumo de energia, a geração solar e a economia da sua empresa com nossa plataforma inteligente.</p>
-      <a href="#dashboard" class="btn">Acessar Dashboard</a>
-    </div>
-  </section>
-  
-  <section class="container" id="features">
-    <h2 class="section-title">Nossas Soluções</h2>
-    <div class="features">
-      <div class="feature-card">
-        <i class="fas fa-chart-line"></i>
-        <h3>Monitoramento em Tempo Real</h3>
-        <p>Acompanhe a geração de energia solar e o consumo da sua empresa com dados atualizados a cada 15 minutos.</p>
+  <!-- Seção de Login -->
+  <section id="login" class="auth-container" style="display: none;">
+    <div class="auth-form">
+      <h2>Login</h2>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="seu@email.com">
       </div>
-      <div class="feature-card">
-        <i class="fas fa-money-bill-wave"></i>
-        <h3>Economia Mensurável</h3>
-        <p>Veja exatamente quanto sua empresa está economizando com a energia solar e o retorno sobre o investimento.</p>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" placeholder="Sua senha">
+        <div class="error-message" id="login-error"></div>
       </div>
-      <div class="feature-card">
-        <i class="fas fa-mobile-alt"></i>
-        <h3>Acesso em Qualquer Lugar</h3>
-        <p>Acesse os dados de qualquer dispositivo com nossa plataforma responsiva e aplicativo móvel.</p>
+      <div class="form-actions">
+        <button class="btn-login" id="btn-login">Entrar</button>
+      </div>
+      <div class="form-footer">
+        Não tem uma conta? <a href="#register">Cadastre-se</a>
       </div>
     </div>
   </section>
   
-  <section class="container" id="dashboard">
-    <h2 class="section-title">Dashboard de Monitoramento</h2>
-    <div class="dashboard">
-      <div class="tabs">
-        <div class="tab active" onclick="openTab(event, 'overview')">Visão Geral</div>
-        <div class="tab" onclick="openTab(event, 'generation')">Geração Solar</div>
-        <div class="tab" onclick="openTab(event, 'consumption')">Consumo</div>
-        <div class="tab" onclick="openTab(event, 'economy')">Economia</div>
+  <!-- Seção de Cadastro -->
+  <section id="register" class="auth-container" style="display: none;">
+    <div class="auth-form">
+      <h2>Cadastro</h2>
+      <div class="form-group">
+        <label for="reg-name">Nome</label>
+        <input type="text" id="reg-name" placeholder="Seu nome completo">
       </div>
-      
-      <div id="overview" class="tab-content active">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h3>Geração Hoje</h3>
-            <div class="value" id="today-generation">128.5 kWh</div>
-            <p>+12% em relação a ontem</p>
+      <div class="form-group">
+        <label for="reg-email">E-mail</label>
+        <input type="email" id="reg-email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label for="reg-password">Senha</label>
+        <input type="password" id="reg-password" placeholder="Crie uma senha">
+      </div>
+      <div class="form-group">
+        <label for="reg-confirm">Confirme a senha</label>
+        <input type="password" id="reg-confirm" placeholder="Digite a senha novamente">
+        <div class="error-message" id="register-error"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-login" id="btn-register">Cadastrar</button>
+      </div>
+      <div class="form-footer">
+        Já tem uma conta? <a href="#login">Faça login</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Conteúdo principal (aparece quando não está na página de login) -->
+  <div id="main-content">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Energia Solar para sua Empresa</h1>
+        <p>Monitore em tempo real o consumo de energia, a geração solar e a economia da sua empresa com nossa plataforma inteligente.</p>
+        <a href="#dashboard" class="btn">Acessar Dashboard</a>
+      </div>
+    </section>
+    
+    <section class="container" id="features">
+      <h2 class="section-title">Nossas Soluções</h2>
+      <div class="features">
+        <div class="feature-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>Monitoramento em Tempo Real</h3>
+          <p>Acompanhe a geração de energia solar e o consumo da sua empresa com dados atualizados a cada 15 minutos.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-money-bill-wave"></i>
+          <h3>Economia Mensurável</h3>
+          <p>Veja exatamente quanto sua empresa está economizando com a energia solar e o retorno sobre o investimento.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h3>Acesso em Qualquer Lugar</h3>
+          <p>Acesse os dados de qualquer dispositivo com nossa plataforma responsiva e aplicativo móvel.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="container" id="dashboard">
+      <h2 class="section-title">Dashboard de Monitoramento</h2>
+      <div class="dashboard">
+        <div class="tabs">
+          <div class="tab active" onclick="openTab(event, 'overview')">Visão Geral</div>
+          <div class="tab" onclick="openTab(event, 'generation')">Geração Solar</div>
+          <div class="tab" onclick="openTab(event, 'consumption')">Consumo</div>
+          <div class="tab" onclick="openTab(event, 'economy')">Economia</div>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>Geração Hoje</h3>
+              <div class="value" id="today-generation">128.5 kWh</div>
+              <p>+12% em relação a ontem</p>
+            </div>
+            <div class="stat-card">
+              <h3>Consumo Hoje</h3>
+              <div class="value" id="today-consumption">98.3 kWh</div>
+              <p>-5% em relação a ontem</p>
+            </div>
+            <div class="stat-card">
+              <h3>Autossuficiência</h3>
+              <div class="value" id="self-sufficiency">76%</div>
+              <p>da energia consumida</p>
+            </div>
+            <div class="stat-card">
+              <h3>Economia Hoje</h3>
+              <div class="value" id="today-economy">R$ 89,42</div>
+              <p>Total mensal: R$ 2.250,00</p>
+            </div>
           </div>
-          <div class="stat-card">
-            <h3>Consumo Hoje</h3>
-            <div class="value" id="today-consumption">98.3 kWh</div>
-            <p>-5% em relação a ontem</p>
-          </div>
-          <div class="stat-card">
-            <h3>Autossuficiência</h3>
-            <div class="value" id="self-sufficiency">76%</div>
-            <p>da energia consumida</p>
-          </div>
-          <div class="stat-card">
-            <h3>Economia Hoje</h3>
-            <div class="value" id="today-economy">R$ 89,42</div>
-            <p>Total mensal: R$ 2.250,00</p>
+          
+          <div class="chart-container">
+            <canvas id="overview-chart"></canvas>
           </div>
         </div>
         
-        <div class="chart-container">
-          <canvas id="overview-chart"></canvas>
+        <div id="generation" class="tab-content">
+          <h3>Geração de Energia Solar</h3>
+          <p>Monitoramento detalhado da energia gerada pelo seu sistema fotovoltaico.</p>
+          <div class="chart-container">
+            <canvas id="generation-chart"></canvas>
+          </div>
+        </div>
+        
+        <div id="consumption" class="tab-content">
+          <h3>Consumo de Energia</h3>
+          <p>Análise do consumo de energia da sua empresa e comparação com a geração solar.</p>
+          <div class="chart-container">
+            <canvas id="consumption-chart"></canvas>
+          </div>
+        </div>
+        
+        <div id="economy" class="tab-content">
+          <h3>Economia Financeira</h3>
+          <p>Relatório de economia gerada pelo sistema fotovoltaico e projeções futuras.</p>
+          <div class="chart-container">
+            <canvas id="economy-chart"></canvas>
+          </div>
         </div>
       </div>
-      
-      <div id="generation" class="tab-content">
-        <h3>Geração de Energia Solar</h3>
-        <p>Monitoramento detalhado da energia gerada pelo seu sistema fotovoltaico.</p>
-        <div class="chart-container">
-          <canvas id="generation-chart"></canvas>
-        </div>
-      </div>
-      
-      <div id="consumption" class="tab-content">
-        <h3>Consumo de Energia</h3>
-        <p>Análise do consumo de energia da sua empresa e comparação com a geração solar.</p>
-        <div class="chart-container">
-          <canvas id="consumption-chart"></canvas>
-        </div>
-      </div>
-      
-      <div id="economy" class="tab-content">
-        <h3>Economia Financeira</h3>
-        <p>Relatório de economia gerada pelo sistema fotovoltaico e projeções futuras.</p>
-        <div class="chart-container">
-          <canvas id="economy-chart"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <section class="container" id="installations">
-    <h2 class="section-title">Nossas Instalações</h2>
-    <p style="text-align: center; margin-bottom: 30px;">Confira algumas de nossas instalações de energia solar em empresas de Sorocaba e região.</p>
+    </section>
     
-    <div class="installation-gallery">
-        <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Instalação comercial">
-            <p>Empresa Ágil Solar - 50kWp</p>
-        </div>
-        <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Técnicos instalando painéis">
-            <p>Equipe técnica em ação</p>
-        </div>
-    </div>
-</section>
+    <section class="container" id="installations">
+      <h2 class="section-title">Nossas Instalações</h2>
+      <p style="text-align: center; margin-bottom: 30px;">Confira algumas de nossas instalações de energia solar em empresas de Sorocaba e região.</p>
+      
+      <div class="installation-gallery">
+          <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Instalação comercial">
+              <p>Empresa Ágil Solar - 50kWp</p>
+          </div>
+          <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Técnicos instalando painéis">
+              <p>Equipe técnica em ação</p>
+          </div>
+      </div>
+    </section>
+  </div>
   
   <footer id="contact">
     <div class="footer-container">
@@ -499,6 +653,7 @@
           <li><a href="#dashboard">Monitoramento</a></li>
           <li><a href="#installations">Instalações</a></li>
           <li><a href="#contact">Contato</a></li>
+          <li><a href="#login">Login</a></li>
         </ul>
       </div>
       <div class="footer-column">
@@ -517,6 +672,28 @@
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    // Sistema de autenticação simples
+    const users = [
+      { email: "usuario@exemplo.com", password: "senha123", name: "Usuário Exemplo" }
+    ];
+    
+    let currentUser = null;
+    
+    // Elementos da interface
+    const loginSection = document.getElementById('login');
+    const registerSection = document.getElementById('register');
+    const mainContent = document.getElementById('main-content');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('login-error');
+    const loginBtn = document.getElementById('btn-login');
+    const regNameInput = document.getElementById('reg-name');
+    const regEmailInput = document.getElementById('reg-email');
+    const regPasswordInput = document.getElementById('reg-password');
+    const regConfirmInput = document.getElementById('reg-confirm');
+    const registerError = document.getElementById('register-error');
+    const registerBtn = document.getElementById('btn-register');
+    
     // Função para alternar entre abas
     function openTab(evt, tabName) {
       const tabContents = document.getElementsByClassName("tab-content");
@@ -533,9 +710,109 @@
       evt.currentTarget.classList.add("active");
     }
     
-    // Configuração dos gráficos
+    // Função para mostrar/ocultar seções
+    function showSection(section) {
+      if (section === 'login') {
+        loginSection.style.display = 'flex';
+        registerSection.style.display = 'none';
+        mainContent.style.display = 'none';
+      } else if (section === 'register') {
+        loginSection.style.display = 'none';
+        registerSection.style.display = 'flex';
+        mainContent.style.display = 'none';
+      } else {
+        loginSection.style.display = 'none';
+        registerSection.style.display = 'none';
+        mainContent.style.display = 'block';
+      }
+    }
+    
+    // Função para fazer login
+    function login() {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!email || !password) {
+        loginError.textContent = 'Por favor, preencha todos os campos.';
+        loginError.style.display = 'block';
+        return;
+      }
+      
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        currentUser = user;
+        showSection('main');
+        alert(`Bem-vindo, ${user.name}!`);
+      } else {
+        loginError.textContent = 'E-mail ou senha incorretos.';
+        loginError.style.display = 'block';
+      }
+    }
+    
+    // Função para registrar novo usuário
+    function register() {
+      const name = regNameInput.value.trim();
+      const email = regEmailInput.value.trim();
+      const password = regPasswordInput.value.trim();
+      const confirm = regConfirmInput.value.trim();
+      
+      if (!name || !email || !password || !confirm) {
+        registerError.textContent = 'Por favor, preencha todos os campos.';
+        registerError.style.display = 'block';
+        return;
+      }
+      
+      if (password !== confirm) {
+        registerError.textContent = 'As senhas não coincidem.';
+        registerError.style.display = 'block';
+        return;
+      }
+      
+      if (users.some(u => u.email === email)) {
+        registerError.textContent = 'Este e-mail já está cadastrado.';
+        registerError.style.display = 'block';
+        return;
+      }
+      
+      users.push({ email, password, name });
+      registerError.style.display = 'none';
+      
+      alert('Cadastro realizado com sucesso! Faça login para continuar.');
+      showSection('login');
+      emailInput.value = email;
+      passwordInput.value = '';
+    }
+    
+    // Event listeners
+    loginBtn.addEventListener('click', login);
+    registerBtn.addEventListener('click', register);
+    
+    // Gerenciamento de rotas simples
+    window.addEventListener('hashchange', function() {
+      const hash = window.location.hash;
+      
+      if (hash === '#login') {
+        showSection('login');
+      } else if (hash === '#register') {
+        showSection('register');
+      } else {
+        showSection('main');
+      }
+    });
+    
+    // Inicialização
     document.addEventListener('DOMContentLoaded', function() {
-      // Gráfico de visão geral
+      // Verificar hash na URL ao carregar
+      if (window.location.hash === '#login') {
+        showSection('login');
+      } else if (window.location.hash === '#register') {
+        showSection('register');
+      } else {
+        showSection('main');
+      }
+      
+      // Configuração dos gráficos
       const overviewCtx = document.getElementById('overview-chart').getContext('2d');
       const overviewChart = new Chart(overviewCtx, {
         type: 'line',
@@ -655,7 +932,6 @@
         const now = new Date();
         const hours = now.getHours();
         
-        // Atualiza os valores exibidos
         document.getElementById('today-generation').textContent = 
           (128.5 + Math.random() * 5).toFixed(1) + ' kWh';
         document.getElementById('today-consumption').textContent = 
@@ -666,7 +942,6 @@
           'R$ ' + (89.42 + Math.random() * 5).toFixed(2);
       }
       
-      // Atualiza a cada 5 segundos (apenas para demonstração)
       setInterval(updateRealTimeData, 5000);
       updateRealTimeData();
     });
